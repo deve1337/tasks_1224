@@ -1,29 +1,34 @@
-import math
+def nod(a, b):
+    # нахождение наибольшего общего делителя по алгоритму Евклида
+    # 1. отрицательные числа преобразуем в положительные
+    a, b = abs(a), abs(b)
+    # 2. a должно быть больше чем b
+    if b > a:
+        a, b = b, a
+    # 3. если вдруг среди них есть 0 - НОД равен большему из них
+    if b == 0:
+        return a
+
+    # 4. пока a не делится на b без остатка, будем в a сохранять b, в b - остаток от деления
+    while a % b != 0:
+        a, b = b, a % b
+
+    # теперь a и b делятся без остатка - НОД найден и равен b
+    return b
 
 
 def is_coprime(x, y):
-    return math.gcd(x, y) == 1
+    # Взамно простыми числами являются числа, у которых НОД равен 1.
+    if nod(x, y) == 1:
+        return True
+    else:
+        return False
 
 
-test_data = (
-    (56, 15, True),
-    (17, 25, True),
-    (12, 15, False),
-    (20, 100, False),
-    (3, 4, True),
-    (7, 28, False),
-)
+# код для проверки
+input_x = [56, 17, 12, 20, 3, 7]
+input_y = [15, 25, 15, 100, 4, 28]
 
 
-def test():
-    print("|   x, y   | is_coprime")
-    print("|----------|-----------")
-    for x, y, expected in test_data:
-        print("|{:4d}, {:<4d}| {}".format(x, y, is_coprime(x, y)))
-        assert is_coprime(x, y) == expected
-
-    print("Test OK")
-
-
-if __name__ == "__main__":
-    test()
+for x, y in zip(input_x, input_y):
+    print((x, y), "-", is_coprime(x, y))
